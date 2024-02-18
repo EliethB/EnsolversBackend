@@ -13,3 +13,5 @@ CREATE TABLE IF NOT EXISTS notes (
     id_state INT NOT NULL,
     FOREIGN KEY (id_state) REFERENCES state(id)
 );
+INSERT INTO ensolvers_data.state (id, status) VALUES ('1', 'active');
+INSERT INTO ensolvers_data.state (id, status) VALUES ('2', 'archive');
