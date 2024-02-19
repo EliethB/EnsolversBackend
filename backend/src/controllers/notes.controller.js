@@ -17,7 +17,7 @@ const getNotes = (req, res) => {
 const postNote = (req, res) => {
   const description = req.body.description;
   let number = req.body.number || null;
-  console.log(description);
+  
   if (!description) {
     return res
       .status(400)
@@ -41,7 +41,7 @@ const postNote = (req, res) => {
 
 const updateNote = (req, res) => {
   const errors = validationResult(req);
-  console.log(req);
+
 
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -71,7 +71,7 @@ const deleteNote = (req, res) => {
   const id = req.params.id;
 
   connection.query("DELETE FROM notes WHERE id=?", [id], (err, results) => {
-    console.log(results);
+  
     if (err) {
       console.log(err);
       res.status(500).json({ error: "Error eliminando la nota" });
@@ -119,7 +119,7 @@ const updateNoteNumber = (req, res) => {
   const id = req.params.id;
   const { new_number, current_number } = req.body;
 
-  // Realizar una consulta para verificar si hay algún registro con el nuevo número y el mismo id_state
+ 
   connection.query(
     "SELECT id FROM notes WHERE number=? AND id != ? AND id_state = (SELECT id_state FROM notes WHERE id = ?)",
     [new_number, id, id],
@@ -129,7 +129,7 @@ const updateNoteNumber = (req, res) => {
         return res.status(500).json({ error: "Error interno del servidor" });
       }
 
-      // Si hay registros con el nuevo número y el mismo id_state, actualizar esos registros
+     
       if (existingResults.length > 0) {
         const existingIds = existingResults.map((result) => result.id);
         connection.query(
@@ -148,7 +148,6 @@ const updateNoteNumber = (req, res) => {
     }
   );
 
-  // Actualizar el registro actual con el nuevo número
   connection.query(
     "UPDATE notes SET number=? WHERE id=?",
     [new_number, id],
